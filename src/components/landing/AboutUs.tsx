@@ -1,34 +1,78 @@
 import { landingContent } from "../../content/landing";
 import { Link } from "react-router-dom";
+import { motion, useReducedMotion } from "framer-motion";
 
 type AboutUsVariant = "home" | "page";
 
 export function AboutUs({ variant = "home" }: { variant?: AboutUsVariant }) {
   const about = landingContent.aboutUs;
+  const reduced = useReducedMotion();
   const descriptionShort = about.descriptionShort;
   const descriptionLong = about.descriptionLong;
   const cardText = about.cardText;
   const cardBullets = about.cardBullets;
   const cardTextAfterBullets = about.cardTextAfterBullets;
   const showGallery = variant === "page";
-  const images = showGallery ? about.images.slice(0, 5) : about.images.slice(0, 2);
+  const images = showGallery
+    ? about.images.slice(0, 5)
+    : about.images.slice(0, 2);
   const isPage = variant === "page";
+
+  const pageWrap = isPage && !reduced;
+  const wrapProps = pageWrap
+    ? {
+        initial: { opacity: 0, y: 16, filter: "blur(10px)" },
+        animate: { opacity: 1, y: 0, filter: "blur(0px)" },
+        transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] as const },
+      }
+    : {};
 
   return (
     <section id="about-us" className="px-4 py-16 sm:py-10">
       <div className="mx-auto w-full max-w-full">
-        <div className="rounded-[0px] bg-black px-6 py-10 text-white sm:px-10 sm:py-12">
+        <motion.div
+          className="rounded-[0px] bg-black px-6 py-10 text-white sm:px-10 sm:py-12"
+          {...wrapProps}
+          style={{ willChange: pageWrap ? "transform, opacity, filter" : undefined }}
+        >
           {isPage ? (
-            <div className="mx-auto max-w-3xl text-center">
-              <h2 className="text-balance text-3xl font-extrabold tracking-tight sm:text-4xl">
+            <motion.div
+              className="mx-auto max-w-3xl text-center"
+              initial={pageWrap ? { opacity: 0 } : undefined}
+              animate={pageWrap ? { opacity: 1 } : undefined}
+              transition={
+                pageWrap
+                  ? { delay: 0.05, duration: 0.45, ease: [0.22, 1, 0.36, 1] }
+                  : undefined
+              }
+            >
+              <motion.h2
+                className="text-balance text-3xl font-extrabold tracking-tight sm:text-4xl"
+                initial={pageWrap ? { opacity: 0, y: 10 } : undefined}
+                animate={pageWrap ? { opacity: 1, y: 0 } : undefined}
+                transition={
+                  pageWrap
+                    ? { delay: 0.1, duration: 0.55, ease: [0.22, 1, 0.36, 1] }
+                    : undefined
+                }
+              >
                 {about.title}
-              </h2>
-              <div className="mt-4 space-y-4 text-sm leading-relaxed text-white/70 sm:text-base">
+              </motion.h2>
+              <motion.div
+                className="mt-4 space-y-4 text-sm leading-relaxed text-white/70 sm:text-base"
+                initial={pageWrap ? { opacity: 0, y: 12 } : undefined}
+                animate={pageWrap ? { opacity: 1, y: 0 } : undefined}
+                transition={
+                  pageWrap
+                    ? { delay: 0.18, duration: 0.6, ease: [0.22, 1, 0.36, 1] }
+                    : undefined
+                }
+              >
                 {descriptionLong.map((para) => (
                   <p key={para}>{para}</p>
                 ))}
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
           ) : (
             <div className="grid gap-10 lg:grid-cols-12 lg:items-start">
               <div className="lg:col-span-7">
@@ -45,7 +89,21 @@ export function AboutUs({ variant = "home" }: { variant?: AboutUsVariant }) {
             </div>
           )}
 
-          <div className="mt-10 grid gap-8 lg:grid-cols-12 lg:items-end">
+          <motion.div
+            className="mt-10 grid gap-8 lg:grid-cols-12 lg:items-end"
+            initial={
+              pageWrap
+                ? { opacity: 0, y: 14, scale: 0.99, filter: "blur(10px)" }
+                : undefined
+            }
+            animate={pageWrap ? { opacity: 1, y: 0, scale: 1, filter: "blur(0px)" } : undefined}
+            transition={
+              pageWrap
+                ? { delay: 0.26, duration: 0.75, ease: [0.22, 1, 0.36, 1] }
+                : undefined
+            }
+            style={{ willChange: pageWrap ? "transform, opacity, filter" : undefined }}
+          >
             <div className="lg:col-span-7">
               <div className="relative overflow-hidden rounded-3xl bg-white/5">
                 <img
@@ -75,10 +133,20 @@ export function AboutUs({ variant = "home" }: { variant?: AboutUsVariant }) {
                 />
               </div>
             </div>
-          </div>
+          </motion.div>
 
           {showGallery ? (
-            <div className="mt-6 grid gap-8 lg:grid-cols-12 lg:items-stretch">
+            <motion.div
+              className="mt-6 grid gap-8 lg:grid-cols-12 lg:items-stretch"
+              initial={pageWrap ? { opacity: 0, y: 16 } : undefined}
+              animate={pageWrap ? { opacity: 1, y: 0 } : undefined}
+              transition={
+                pageWrap
+                  ? { delay: 0.36, duration: 0.7, ease: [0.22, 1, 0.36, 1] }
+                  : undefined
+              }
+              style={{ willChange: pageWrap ? "transform, opacity" : undefined }}
+            >
               <div className="lg:col-span-7">
                 <div className="h-full rounded-3xl bg-white/5 p-6 sm:p-8">
                   <div className="space-y-4 text-sm leading-relaxed text-white/75 sm:text-base">
@@ -113,9 +181,9 @@ export function AboutUs({ variant = "home" }: { variant?: AboutUsVariant }) {
                   />
                 </div>
               </div>
-            </div>
+            </motion.div>
           ) : null}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

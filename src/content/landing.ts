@@ -65,15 +65,28 @@ export type LandingAboutUs = {
   images: { src: string; alt: string }[];
 };
 
+export type LandingFooter = {
+  brand: string;
+  description: string;
+  socials: { label: string; href: string }[];
+  extraLinks: LandingNavItem[];
+  contact: {
+    addressLines: string[];
+    email: string;
+    phone: string;
+  };
+  copyright: string;
+};
+
 export const landingContent = {
   brand: "Kelokal",
   tagline: "Kelola komunitas & event lokal lebih rapi.",
   nav: [
     { label: "Home", href: "/home" },
-    { label: "Tenant", href: "#tenant" },
-    { label: "Walking Tour", href: "#walking-tour" },
-    { label: "Fun Run", href: "#fun-run" },
+    { label: "Services", href: "/#services" },
+    { label: "News", href: "/#news" },
     { label: "About Us", href: "/about-us" },
+    { label: "Contact", href: "/#contact" },
   ] satisfies LandingNavItem[],
 
   hero: {
@@ -95,11 +108,11 @@ export const landingContent = {
         alt: "Hero slide 1",
       },
       {
-        src: "/slides/slide-2.jpg",
+        src: "/slides/sld1.png",
         alt: "Hero slide 2",
       },
       {
-        src: "/slides/slide-3.jpg",
+        src: "/slides/sld2.png",
         alt: "Hero slide 3",
       },
     ] satisfies LandingHeroSlide[],
@@ -139,9 +152,9 @@ export const landingContent = {
     images: [
       { src: "/public/abtiimg2.png", alt: "About image 1" },
       { src: "/public/abtimg3.png", alt: "About image 2" },
-      { src: "/public/about-3.png", alt: "About image 3" },
-      { src: "/public/about-4.png", alt: "About image 4" },
-      { src: "/public/about-5.png", alt: "About image 5" },
+      { src: "#", alt: "About image 3" },
+      { src: "#", alt: "About image 4" },
+      { src: "/public/abt7.png", alt: "About image 5" },
     ],
   } satisfies LandingAboutUs,
 
@@ -162,7 +175,7 @@ export const landingContent = {
       {
         title: "Tenant",
         description: "Daftar sekarang dan dapatkan diskon 10%",
-        href: "https://forms.gle/link-doodle-art",
+        href: "https://bit.ly/PendaftaranTenantElevateTheEnergy2026",
       },
       {
         title: "Walking Tour",
@@ -172,7 +185,7 @@ export const landingContent = {
       {
         title: "Fun Run",
         description: "Daftar sekarang dan dapatkan diskon 10%",
-        href: "https://forms.gle/link-community-sport-day",
+        href: "https://docs.google.com/forms/d/e/1FAIpQLSfYfvXg5kHE4AINyWrZbkOUfxeWZ5akKTyrIzQp9vMyLG9SJg/viewform?usp=sharing&ouid=111255964124994562681",
       },
     ] satisfies LandingFeature[],
   },
@@ -294,11 +307,28 @@ export const landingContent = {
   },
 
   footer: {
-    copyright: `© ${new Date().getFullYear()} Kelokal. All rights reserved.`,
-    links: [
-      { label: "Kebijakan Privasi", href: "#" },
-      { label: "Syarat & Ketentuan", href: "#" },
-      { label: "Kontak", href: "#faq" },
+    brand: "Kelokal",
+    description:
+      "We offer a wide range of handyman services to meet all your needs, from minor fixes to major renovations.",
+    socials: [
+      { label: "Instagram", href: "https://instagram.com/kelokal.id" },
+      { label: "WhatsApp", href: "https://wa.me/6281329409971" },
+    ],
+    extraLinks: [
+      { label: "Home", href: "/home" },
+      { label: "Services", href: "#" },
+      { label: "News", href: "/#news" },
+      { label: "Contact", href: "/#contact" },
+      { label: "About Us", href: "/#about-us" },
     ] satisfies LandingNavItem[],
-  },
+    contact: {
+      addressLines: [
+        "Kelokal Experience Lab Office",
+        "Nglanjaran RT006/RW016, Sardonoharjo, Ngaglik, Sleman, Daerah Istimewa Yogyakarta 55581",
+      ],
+      email: "kelokal.idn@gmail.com",
+      phone: "(+62) 8132-9409-971",
+    },
+    copyright: `© ${new Date().getFullYear()} Kelokal. All rights reserved.`,
+  } satisfies LandingFooter,
 } as const;

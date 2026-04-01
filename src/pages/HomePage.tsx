@@ -11,10 +11,10 @@ export function HomePage() {
       <Hero />
 
       <AboutUs variant="home" />
-      <Features />
       <Ticker />
-      <News />
+      <Features />
       <TickerBottom />
+      <News />
     </main>
   );
 }

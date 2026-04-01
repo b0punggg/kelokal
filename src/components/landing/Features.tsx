@@ -135,7 +135,7 @@ export function Features() {
                   className="group flex items-center justify-between rounded-full border border-slate-300 bg-white/0 px-5 py-4 text-slate-900 shadow-sm backdrop-blur transition hover:-translate-y-0.5 hover:border-slate-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 focus-visible:ring-offset-2"
                 >
                   <div className="flex items-center gap-4">
-                    <span className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-300 text-sm font-extrabold text-slate-800">
+                    <span className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-300 text-sm font-extrabold text-black">
                       {String(idx + 1).padStart(1, "0")}
                     </span>
                     <span className="text-sm font-semibold tracking-wide text-slate-800">
@@ -155,7 +155,7 @@ export function Features() {
 
           <div className="lg:col-span-4">
             {countdownConfig && (
-              <div className="rounded-3xl bg-slate-200/70 p-6 text-slate-900 shadow-sm">
+              <div className="rounded-3xl bg-black p-6 text-white shadow-sm">
                 <h3 className="text-xl font-extrabold leading-tight">
                   {countdownConfig.label}
                 </h3>
@@ -186,13 +186,13 @@ export function Features() {
 
           <div className="lg:col-span-3">
             <div className="grid gap-4">
-              <div className="rounded-3xl bg-slate-900 px-6 py-7 text-white shadow-sm">
+              <div className="rounded-3xl bg-black px-6 py-7 text-white shadow-sm">
                 <div className="whitespace-pre-line text-3xl font-extrabold leading-none tracking-tight">
                   {landingContent.features.eventDate}
                 </div>
               </div>
 
-              <div className="rounded-3xl bg-[#00adef] px-6 py-7 text-slate-900 shadow-sm">
+              <div className="rounded-3xl bg-[#000000] px-6 py-7 text-white shadow-sm">
                 <div className="flex items-start gap-3">
                   <div className="mt-1 grid h-10 w-10 place-items-center rounded-full bg-white/60">
                     <svg

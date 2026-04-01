@@ -4,7 +4,7 @@ export function News() {
   const items = landingContent.news.items;
 
   return (
-    <section className="bg-[#ffffff] px-4 py-14">
+    <section id="news" className="bg-[#ffffff] px-4 py-14">
       <div className="mx-auto w-full max-w-6xl">
         <h2 className="text-center text-3xl font-extrabold tracking-wide text-slate-900 sm:text-4xl">
           {landingContent.news.title}
