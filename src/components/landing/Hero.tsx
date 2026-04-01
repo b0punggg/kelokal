@@ -1,6 +1,12 @@
 import { landingContent } from "../../content/landing";
-import { useEffect, useMemo, useState } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import {
+  AnimatePresence,
+  motion,
+  useReducedMotion,
+  useScroll,
+  useTransform,
+} from "framer-motion";
 
 function usePrefersReducedMotion() {
   const [reduced, setReduced] = useState(false);
@@ -22,11 +28,13 @@ export function Hero() {
   const reducedMotionFm = useReducedMotion();
   const intro = landingContent.hero.intro;
   const [active, setActive] = useState(0);
+  const [direction, setDirection] = useState<1 | -1>(1);
   const SLIDE_INTERVAL_MS = 4200;
   const SLIDE_TRANSITION = {
     duration: 1.15,
     ease: [0.22, 1, 0.36, 1] as const,
   };
+  const scrollCarouselRef = useRef<HTMLDivElement | null>(null);
 
   const safeActive = slides.length
     ? ((active % slides.length) + slides.length) % slides.length
@@ -36,18 +44,21 @@ export function Hero() {
     if (reducedMotion || reducedMotionFm) return;
     if (slides.length <= 1) return;
     const id = window.setInterval(() => {
+      setDirection(1);
       setActive((i) => i + 1);
     }, SLIDE_INTERVAL_MS);
     return () => window.clearInterval(id);
   }, [reducedMotion, reducedMotionFm, slides.length, SLIDE_INTERVAL_MS]);
 
-  const visible = useMemo(() => {
-    if (!slides.length) return [] as typeof slides;
-    const left = slides[(safeActive - 1 + slides.length) % slides.length]!;
-    const center = slides[safeActive]!;
-    const right = slides[(safeActive + 1) % slides.length]!;
-    return [left, center, right];
-  }, [safeActive, slides]);
+  const { scrollYProgress } = useScroll({
+    target: scrollCarouselRef,
+    offset: ["start start", "end end"],
+  });
+  const x = useTransform(scrollYProgress, [0, 1], ["0vw", `-${Math.max(slides.length - 1, 0) * 100}vw`]);
+
+  const swipeConfidenceThreshold = 12000;
+  const swipePower = (offset: number, velocity: number) =>
+    Math.abs(offset) * velocity;
 
   return (
     <section className="px-0 pt-0">
@@ -110,41 +121,101 @@ export function Hero() {
               loading="eager"
             />
           ) : (
-            <div className="relative w-full overflow-hidden">
-              <div className="grid w-full grid-cols-12 items-center gap-3 sm:gap-6">
-                {visible.map((s, idx) => {
-                  const isCenter = idx === 1;
-                  const colSpan = isCenter ? "col-span-6" : "col-span-3";
-                  const scale = isCenter ? 1 : 0.94;
-                  const opacity = isCenter ? 1 : 0.82;
-                  return (
-                    <motion.div
-                      // layout makes it smoothly "swap" sizes/positions
-                      layout
-                      key={`${s.src}-${idx === 1 ? safeActive : `${safeActive}-${idx}`}`}
-                      className={`${colSpan}`}
+            <>
+              {/* Mobile: keep full-screen auto-advance */}
+              <div className="relative w-full overflow-hidden md:hidden">
+                <div className="relative h-[100vh] w-full overflow-hidden bg-black">
+                  <AnimatePresence initial={false} custom={direction}>
+                    <motion.img
+                      key={slides[safeActive]!.src}
+                      src={slides[safeActive]!.src}
+                      alt={slides[safeActive]!.alt}
+                      className="absolute inset-0 h-full w-full object-contain"
+                      loading="eager"
+                      draggable={false}
+                      custom={direction}
+                      variants={{
+                        enter: (dir: 1 | -1) => ({
+                          x: dir > 0 ? 120 : -120,
+                          opacity: 0,
+                          filter: "blur(10px)",
+                        }),
+                        center: { x: 0, opacity: 1, filter: "blur(0px)" },
+                        exit: (dir: 1 | -1) => ({
+                          x: dir > 0 ? -120 : 120,
+                          opacity: 0,
+                          filter: "blur(10px)",
+                        }),
+                      }}
+                      initial="enter"
+                      animate="center"
+                      exit="exit"
                       transition={SLIDE_TRANSITION}
-                      animate={{ opacity }}
-                      style={{ willChange: "transform, opacity" }}
-                    >
-                      <motion.img
-                        layout
-                        src={s.src}
-                        alt={s.alt}
-                        className="h-[44vh] w-full object-cover rounded-[10px] shadow-xl sm:h-[62vh]"
-                        loading={isCenter ? "eager" : "lazy"}
-                        draggable={false}
-                        transition={SLIDE_TRANSITION}
-                        style={{
-                          transformOrigin: "center",
-                          scale,
-                        }}
-                      />
-                    </motion.div>
-                  );
-                })}
+                      drag="x"
+                      dragConstraints={{ left: 0, right: 0 }}
+                      dragElastic={0.22}
+                      onDragEnd={(_, { offset, velocity }) => {
+                        const swipe = swipePower(offset.x, velocity.x);
+                        if (swipe < -swipeConfidenceThreshold) {
+                          setDirection(1);
+                          setActive((i) => i + 1);
+                        } else if (swipe > swipeConfidenceThreshold) {
+                          setDirection(-1);
+                          setActive((i) => i - 1);
+                        }
+                      }}
+                      style={{ willChange: "transform, opacity, filter" }}
+                    />
+                  </AnimatePresence>
+                </div>
+
+                <div className="absolute bottom-10 left-0 right-0 flex items-center justify-center gap-2">
+                  {slides.map((_, i) => (
+                    <button
+                      key={i}
+                      type="button"
+                      aria-label={`Slide ${i + 1}`}
+                      className={[
+                        "h-2.5 w-2.5 rounded-full transition-all",
+                        i === safeActive
+                          ? "bg-white"
+                          : "bg-white/40 hover:bg-white/60",
+                      ].join(" ")}
+                      onClick={() => {
+                        setDirection(i > safeActive ? 1 : -1);
+                        setActive(i);
+                      }}
+                    />
+                  ))}
+                </div>
               </div>
-            </div>
+
+              {/* Desktop: scroll-driven pinned carousel */}
+              <div
+                ref={scrollCarouselRef}
+                className="relative hidden w-full md:block"
+                style={{ height: `${Math.max(slides.length, 1) * 100}vh` }}
+              >
+                <div className="sticky top-0 h-screen overflow-hidden">
+                  <motion.div
+                    className="flex h-full"
+                    style={{ x, willChange: "transform" }}
+                  >
+                    {slides.map((s) => (
+                      <div key={s.src} className="h-full w-screen shrink-0">
+                        <img
+                          src={s.src}
+                          alt={s.alt}
+                          className="h-full w-full object-cover"
+                          loading="lazy"
+                          draggable={false}
+                        />
+                      </div>
+                    ))}
+                  </motion.div>
+                </div>
+              </div>
+            </>
           )
         ) : (
           <div className="grid h-full w-full place-items-center bg-slate-100 text-sm font-medium text-slate-600">
