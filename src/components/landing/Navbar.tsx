@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { landingContent } from "../../content/landing";
+import { Link } from "react-router-dom";
 
 function cx(...parts: Array<string | false | undefined>) {
   return parts.filter(Boolean).join(" ");
@@ -19,23 +20,33 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/80 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
-        <a
-          href="#top"
+        <Link
+          to="/"
           className="inline-flex items-center gap-2 font-semibold tracking-tight text-slate-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 focus-visible:ring-offset-2"
           onClick={() => setOpen(false)}
         >
           <img src="/LOGOklk.png" alt="Logo" className="h-8 w-auto" />
-        </a>
+        </Link>
 
         <nav className="hidden items-center gap-6 md:flex" aria-label="Primary">
           {landingContent.nav.map((item) => (
-            <a
-              key={item.href}
-              href={item.href}
-              className="text-sm font-medium text-slate-700 hover:text-[#00adef] focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 focus-visible:ring-offset-2 rounded"
-            >
-              {item.label}
-            </a>
+            item.href.startsWith("/") ? (
+              <Link
+                key={item.href}
+                to={item.href}
+                className="text-sm font-medium text-slate-700 hover:text-[#00adef] focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 focus-visible:ring-offset-2 rounded"
+              >
+                {item.label}
+              </Link>
+            ) : (
+              <a
+                key={item.href}
+                href={item.href}
+                className="text-sm font-medium text-slate-700 hover:text-[#00adef] focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 focus-visible:ring-offset-2 rounded"
+              >
+                {item.label}
+              </a>
+            )
           ))}
         </nav>
 
@@ -65,14 +76,25 @@ export function Navbar() {
           aria-label="Mobile"
         >
           {landingContent.nav.map((item) => (
-            <a
-              key={item.href}
-              href={item.href}
-              className="rounded-md px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 focus-visible:ring-offset-2"
-              onClick={() => setOpen(false)}
-            >
-              {item.label}
-            </a>
+            item.href.startsWith("/") ? (
+              <Link
+                key={item.href}
+                to={item.href}
+                className="rounded-md px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 focus-visible:ring-offset-2"
+                onClick={() => setOpen(false)}
+              >
+                {item.label}
+              </Link>
+            ) : (
+              <a
+                key={item.href}
+                href={item.href}
+                className="rounded-md px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 focus-visible:ring-offset-2"
+                onClick={() => setOpen(false)}
+              >
+                {item.label}
+              </a>
+            )
           ))}
         </nav>
       </div>

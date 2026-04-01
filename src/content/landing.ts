@@ -43,8 +43,10 @@ export type LandingFaqItem = {
 
 export type LandingNewsItem = {
   title: string;
-  /** URL lengkap posting Blogspot (dipakai sebagai src iframe) */
+  /** URL lengkap posting Blogspot (dibuka saat klik) */
   blogUrl: string;
+  /** Cover image untuk card news */
+  coverSrc: string;
 };
 
 export type LandingStatItem = {
@@ -54,7 +56,11 @@ export type LandingStatItem = {
 
 export type LandingAboutUs = {
   title: string;
-  description: string;
+  descriptionShort: string;
+  descriptionLong: string[];
+  cardText: string[];
+  cardBullets: string[];
+  cardTextAfterBullets: string[];
   badge: string;
   images: { src: string; alt: string }[];
 };
@@ -63,11 +69,11 @@ export const landingContent = {
   brand: "Kelokal",
   tagline: "Kelola komunitas & event lokal lebih rapi.",
   nav: [
-    { label: "Home", href: "#home" },
-    { label: "Doodle Art", href: "#doodle-art" },
-    { label: "Lomba", href: "#lomba" },
-    { label: "Community Sport Day", href: "#community-sport-day" },
-    { label: "About Us", href: "#about-us" },
+    { label: "Home", href: "/home" },
+    { label: "Tenant", href: "#tenant" },
+    { label: "Walking Tour", href: "#walking-tour" },
+    { label: "Fun Run", href: "#fun-run" },
+    { label: "About Us", href: "/about-us" },
   ] satisfies LandingNavItem[],
 
   hero: {
@@ -108,12 +114,34 @@ export const landingContent = {
 
   aboutUs: {
     title: "Kenal lebih dekat dengan Kelokal",
-    description:
-      "Perjalanan ini bukan hanya tentang menjalankan proyek, tetapi tentang mengalami, memahami, dan terlibat langsung di dalamnya. Kami hadir di berbagai ruang, mulai dari workshop kecil yang intim, event komunitas yang hidup, hingga kolaborasi dengan brand dan institusi.",
+    descriptionShort:
+      "Perjalanan ini bukan hanya tentang menjalankan proyek, tetapi tentang mengalami, memahami, dan terlibat langsung di dalamnya.",
+    descriptionLong: [
+      "Selama lebih dari 8 tahun, Kelokal tumbuh dari sebuah inisiatif sederhana menjadi sebuah perjalanan panjang di dunia hospitality, pariwisata, dan industri kreatif. Perjalanan ini bukan hanya tentang menjalankan proyek, tetapi tentang mengalami, memahami, dan terlibat langsung di dalamnya.",
+      "Kami hadir di berbagai ruang, mulai dari workshop kecil yang intim, event komunitas yang hidup, hingga kolaborasi dengan brand dan institusi.",
+      "Kami belajar satu hal penting: setiap pengalaman memiliki cerita, dan setiap cerita memiliki kekuatan untuk menghubungkan.",
+    ],
+    cardText: [
+      "Selama 8 tahun ini, kami tidak hanya bekerja di balik layar, Kami berada di lapangan, berinteraksi dengan manusia, memahami perilaku audiens, dan merasakan langsung dinamika sebuah pengalaman. Dari sinilah Kelokal berkembang, bukan hanya sebagai penyelenggara kegiatan, tetapi sebagai pihak yang mengerti bagaimana sebuah pengalaman dibentuk dan dirasakan.",
+      "Pengalaman inilah yang menjadi fondasi kami hari ini. Melalui perjalanan tersebut, kami memahami bahwa keberhasilan sebuah project tidak hanya ditentukan oleh eksekusi, tetapi oleh pemahaman yang dalam terhadap konteks, audience, dan tujuan brand.",
+      "Kini, bersama Experiola Group, pengalaman yang kami bangun selama bertahun-tahun tidak berhenti sebagai aktivitas, tetapi kami terjemahkan menjadi insight, strategi, dan pendekatan kreatif yang lebih terarah.",
+      "Kami membawa pengalaman itu untuk:",
+    ],
+    cardBullets: [
+      "membantu brand menjadi lebih relevan",
+      "menciptakan koneksi yang lebih kuat dengan audiens",
+      "dan menghadirkan project yang tidak hanya berjalan, tetapi berhasil",
+    ],
+    cardTextAfterBullets: [
+      "Karena bagi kami, pengalaman bukan hanya sesuatu yang terjadi di masa lalu, tetapi bekal untuk menciptakan keberhasilan di masa depan.",
+    ],
     badge: "Baca Selengkapnya →",
     images: [
       { src: "/public/abtiimg2.png", alt: "About image 1" },
       { src: "/public/abtimg3.png", alt: "About image 2" },
+      { src: "/public/about-3.png", alt: "About image 3" },
+      { src: "/public/about-4.png", alt: "About image 4" },
+      { src: "/public/about-5.png", alt: "About image 5" },
     ],
   } satisfies LandingAboutUs,
 
@@ -214,17 +242,25 @@ export const landingContent = {
     title: "News Article",
     items: [
       {
-        title: "Berita 1",
+        title:
+          "Menyusuri Keindahan dan Mitologi Air Terjun Grojogan Sewu di Tawangmangu",
         blogUrl: "https://kelokal.blogspot.com/2024/08/grojogan%20sewu.html",
+        coverSrc:
+          "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi5oHDwjxBN8nHc4fQL0KnZUBmTfB_Ei_cdWAt9Z1WmOfSnh366nK0wL2VmyUo6dvuwBs_v6xkMcNk7wWHAje34tLiNl6BAW2f4CCXtqz8wuEYeA6grm-Oj1mvHeLz29gDCLdCkfqx1b8I0uiy_cdQGpZJXruFK5Nsm6d_9_VhDNSLFffFN_TQ84p32CvRq/s960/grojogan-sewu-tawangmangu-3.jpg",
       },
       {
-        title: "Berita 2",
+        title:
+          "Kuliner Jogja yang Wajib Dicoba Selain Gudeg: Referensi Libur Tahun Baru",
         blogUrl:
           "https://kelokal.blogspot.com/2025/01/kuliner-jogja-yang-wajib-dicoba-selain.html",
+        coverSrc:
+          "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjApDdKb4m0HFvJQLIwTMyvvgLe_2_6wiH54nLCPaN2w6Z8P_mqU2rWIP5F-40lwIZcn4UlFkOxV1nqT49dei1bMhAD_WlH1oQeFGa9vWA7_wVTwLmm06qDHrWrEWiTUNAM8u9ySwKHGp_zqIv66yBoBQ32-aptABXexQ6kAe5UHDkF-20C7xQGnmRC3bPL/s700/sate-klatak-2.jpg",
       },
       {
-        title: "Berita 3",
+        title: "Candi Prambanan, Candi Hindu Terbesar di Indonesia",
         blogUrl: "https://kelokal.blogspot.com/2024/08/candiprambanan.html",
+        coverSrc:
+          "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj2dOaVc92eaReci0CwkPjaZ1sEXe7lod_aqIIXDWLMieGiEqo75dOXQf1IRjoqS5drG1eLW6vgCXs31Y0xVz1FY83rC6Y1E1_6zAsY2RF83YCI_HvEOqy6RzpqhX10y-SsfqY35_Bpozz9RrROzz2ixysV6miPVR3lo1P22M7-pPY86Icuw2XhbbyQ9sTI/s612/Legenda-Candi-Prambanan-dan-5-Mitosnya.jpg",
       },
     ] satisfies LandingNewsItem[],
   },

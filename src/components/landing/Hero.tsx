@@ -42,44 +42,52 @@ export function Hero() {
       <div className="bg-black py-6 sm:py-20 md:py-32 text-white flex items-center justify-center">
         <div className="mx-auto w-full max-w-6xl">
           <div className="md:hidden flex flex-col items-center gap-5 text-center">
-            <p className="border-b border-white pb-1 text-[10px] font-medium uppercase leading-none tracking-[0.18em] whitespace-nowrap text-white">
+            <p className="border-b border-white pb-1 text-[10px] font-medium uppercase leading-none tracking-[0.18em] whitespace-nowrap text-white motion-safe:animate-introRise [animation-delay:0ms]">
               {intro.line1Tagline}
             </p>
-            <p className="text-4xl font-semibold lowercase tracking-tight sm:text-5xl">
+            <p className="text-sm font-extrabold tracking-[0.28em] uppercase text-white motion-safe:animate-labPulse">
+              Kelokal Experience Lab
+            </p>
+            <p className="text-4xl font-semibold lowercase tracking-tight sm:text-5xl motion-safe:animate-introRise [animation-delay:220ms]">
               {intro.line1Word}
             </p>
-            <p className="text-4xl font-semibold lowercase tracking-tight sm:text-5xl">
+            <p className="text-4xl font-semibold lowercase tracking-tight sm:text-5xl motion-safe:animate-introRise [animation-delay:440ms]">
               {intro.line2Word}
             </p>
-            <p className="text-4xl font-semibold lowercase tracking-tight sm:text-5xl">
+            <p className="text-4xl font-semibold lowercase tracking-tight sm:text-5xl motion-safe:animate-introRise [animation-delay:660ms]">
               {intro.line3Word}
             </p>
-            <p className="border-b border-white pb-1 text-[10px] font-medium uppercase leading-none tracking-[0.18em] whitespace-nowrap text-white">
+            <p className="border-b border-white pb-1 text-[10px] font-medium uppercase leading-none tracking-[0.18em] whitespace-nowrap text-white motion-safe:animate-introRise [animation-delay:880ms]">
               {intro.line3Tagline}
             </p>
           </div>
 
           <div className="hidden md:flex md:flex-col md:gap-14 lg:gap-16">
             <div className="flex flex-wrap items-end justify-start gap-x-6 gap-y-4">
-              <p className="text-5xl font-semibold lowercase tracking-tight sm:text-6xl md:text-7xl lg:text-8xl">
-                {intro.line1Word}
-              </p>
-              <p className="shrink-0 border-b border-white pb-1 text-[8px] font-medium uppercase leading-none tracking-[0.18em] text-white sm:text-[10px] md:text-xs md:translate-y-[-0.35em] md:tracking-[0.2em] whitespace-nowrap">
+              <div className="flex flex-col gap-2">
+                <p className="text-sm font-extrabold tracking-[0.28em] uppercase text-white motion-safe:animate-labPulse">
+                  Kelokal Experience Lab
+                </p>
+                <p className="text-5xl font-semibold lowercase tracking-tight sm:text-6xl md:text-7xl lg:text-8xl motion-safe:animate-introRise [animation-delay:0ms]">
+                  {intro.line1Word}
+                </p>
+              </div>
+              <p className="shrink-0 border-b border-white pb-1 text-[8px] font-medium uppercase leading-none tracking-[0.18em] text-white sm:text-[10px] md:text-xs md:translate-y-[-0.35em] md:tracking-[0.2em] whitespace-nowrap motion-safe:animate-introRise [animation-delay:260ms]">
                 {intro.line1Tagline}
               </p>
             </div>
 
             <div className="flex flex-wrap items-end justify-center gap-x-6 gap-y-4">
-              <p className="text-5xl font-semibold lowercase tracking-tight sm:text-6xl md:text-7xl lg:text-8xl">
+              <p className="text-5xl font-semibold lowercase tracking-tight sm:text-6xl md:text-7xl lg:text-8xl motion-safe:animate-introRise [animation-delay:520ms]">
                 {intro.line2Word}
               </p>
             </div>
 
             <div className="flex flex-wrap items-end justify-end gap-x-6 gap-y-4">
-              <p className="order-2 border-b border-white pb-1 text-[10px] font-medium uppercase leading-snug tracking-[0.2em] text-white sm:order-1 sm:text-xs whitespace-nowrap">
+              <p className="order-2 border-b border-white pb-1 text-[10px] font-medium uppercase leading-snug tracking-[0.2em] text-white sm:order-1 sm:text-xs whitespace-nowrap motion-safe:animate-introRise [animation-delay:980ms]">
                 {intro.line3Tagline}
               </p>
-              <p className="order-1 text-5xl font-semibold lowercase tracking-tight sm:order-2 sm:text-6xl md:text-7xl lg:text-8xl">
+              <p className="order-1 text-5xl font-semibold lowercase tracking-tight sm:order-2 sm:text-6xl md:text-7xl lg:text-8xl motion-safe:animate-introRise [animation-delay:760ms]">
                 {intro.line3Word}
               </p>
             </div>
