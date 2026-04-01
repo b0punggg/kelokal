@@ -97,9 +97,9 @@ export const landingContent = {
     secondaryCta: { label: "Lihat Demo", href: "#fitur" },
     intro: {
       line1Word: "Explore",
-      line1Tagline: "Creating experience, Building connection.",
+      line1Tagline: "Creating experience",
       line2Word: "Experience",
-      line3Tagline: "With us",
+      line3Tagline: "Building connection",
       line3Word: "Enjoy",
     } satisfies LandingHeroIntro,
     slides: [
@@ -309,7 +309,7 @@ export const landingContent = {
   footer: {
     brand: "Kelokal",
     description:
-      "We offer a wide range of handyman services to meet all your needs, from minor fixes to major renovations.",
+      "Kelokal adalah experience lab yang mengeksplorasi budaya, manusia, dan ruang untuk menciptakan pengalaman yang bermakna.",
     socials: [
       { label: "Instagram", href: "https://instagram.com/kelokal.id" },
       { label: "WhatsApp", href: "https://wa.me/6281329409971" },

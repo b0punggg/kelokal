@@ -1,5 +1,6 @@
 import { landingContent } from "../../content/landing";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { motion, useReducedMotion } from "framer-motion";
 
 function usePrefersReducedMotion() {
   const [reduced, setReduced] = useState(false);
@@ -18,23 +19,35 @@ function usePrefersReducedMotion() {
 export function Hero() {
   const slides = landingContent.hero.slides;
   const reducedMotion = usePrefersReducedMotion();
+  const reducedMotionFm = useReducedMotion();
+  const intro = landingContent.hero.intro;
   const [active, setActive] = useState(0);
+  const SLIDE_INTERVAL_MS = 4200;
+  const SLIDE_TRANSITION = {
+    duration: 1.15,
+    ease: [0.22, 1, 0.36, 1] as const,
+  };
 
-  const safeIndex = slides.length
+  const safeActive = slides.length
     ? ((active % slides.length) + slides.length) % slides.length
     : 0;
 
   useEffect(() => {
-    if (reducedMotion) return;
+    if (reducedMotion || reducedMotionFm) return;
     if (slides.length <= 1) return;
     const id = window.setInterval(() => {
-      setActive((i) => (i + 1) % slides.length);
-    }, 4500);
+      setActive((i) => i + 1);
+    }, SLIDE_INTERVAL_MS);
     return () => window.clearInterval(id);
-  }, [reducedMotion, slides.length]);
+  }, [reducedMotion, reducedMotionFm, slides.length, SLIDE_INTERVAL_MS]);
 
-  const current = slides[safeIndex];
-  const intro = landingContent.hero.intro;
+  const visible = useMemo(() => {
+    if (!slides.length) return [] as typeof slides;
+    const left = slides[(safeActive - 1 + slides.length) % slides.length]!;
+    const center = slides[safeActive]!;
+    const right = slides[(safeActive + 1) % slides.length]!;
+    return [left, center, right];
+  }, [safeActive, slides]);
 
   return (
     <section className="px-0 pt-0">
@@ -87,14 +100,52 @@ export function Hero() {
         </div>
       </div>
 
-      <div className="px-4 py-6 min-h-[62vh] sm:py-10 sm:min-h-screen flex items-center justify-center">
-        {current ? (
-          <img
-            src={current.src}
-            alt={current.alt}
-            className="w-full max-w-5xl aspect-[16/9] object-cover rounded-[10px] shadow-xl sm:w-5/6"
-            loading="eager"
-          />
+      <div className="px-0 py-6 min-h-[62vh] sm:py-10 sm:min-h-screen flex items-center justify-center">
+        {slides.length ? (
+          reducedMotion || reducedMotionFm || slides.length === 1 ? (
+            <img
+              src={slides[0]!.src}
+              alt={slides[0]!.alt}
+              className="w-full max-w-5xl aspect-[16/9] object-cover rounded-[10px] shadow-xl sm:w-5/6"
+              loading="eager"
+            />
+          ) : (
+            <div className="relative w-full overflow-hidden">
+              <div className="grid w-full grid-cols-12 items-center gap-3 sm:gap-6">
+                {visible.map((s, idx) => {
+                  const isCenter = idx === 1;
+                  const colSpan = isCenter ? "col-span-6" : "col-span-3";
+                  const scale = isCenter ? 1 : 0.94;
+                  const opacity = isCenter ? 1 : 0.82;
+                  return (
+                    <motion.div
+                      // layout makes it smoothly "swap" sizes/positions
+                      layout
+                      key={`${s.src}-${idx === 1 ? safeActive : `${safeActive}-${idx}`}`}
+                      className={`${colSpan}`}
+                      transition={SLIDE_TRANSITION}
+                      animate={{ opacity }}
+                      style={{ willChange: "transform, opacity" }}
+                    >
+                      <motion.img
+                        layout
+                        src={s.src}
+                        alt={s.alt}
+                        className="h-[44vh] w-full object-cover rounded-[10px] shadow-xl sm:h-[62vh]"
+                        loading={isCenter ? "eager" : "lazy"}
+                        draggable={false}
+                        transition={SLIDE_TRANSITION}
+                        style={{
+                          transformOrigin: "center",
+                          scale,
+                        }}
+                      />
+                    </motion.div>
+                  );
+                })}
+              </div>
+            </div>
+          )
         ) : (
           <div className="grid h-full w-full place-items-center bg-slate-100 text-sm font-medium text-slate-600">
             No slides
