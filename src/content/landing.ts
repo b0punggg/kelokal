@@ -166,7 +166,7 @@ export const landingContent = {
   features: {
     title: "DAFTAR SEKARANG",
     eventDate: "12 April 2026",
-    eventLocation: "The Alana\nYogyakarta",
+    eventLocation: "The Alana Malioboro Yogyakarta",
     countdown: {
       label: "Countdown To Kelokal Event",
       target: "2026-04-12T17:00:00+07:00", // ganti ke tanggal event asli
